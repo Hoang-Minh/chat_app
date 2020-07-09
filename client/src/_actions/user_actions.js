@@ -43,3 +43,14 @@ export function logoutUser() {
     payload: request,
   };
 }
+
+// These two will be used after a refactoring using react-redux store !!!
+export const loginUser1 = (dataToSubmit) => async (dispatch) => {
+  const response = await axios.post(`${USER_SERVER}/login`, dataToSubmit);
+  dispatch({ type: LOGIN_USER, payload: response.data });
+};
+
+export const auth1 = () => async (dispatch) => {
+  const response = await axios.get(`${USER_SERVER}/auth`);
+  dispatch({ type: AUTH_USER, payload: response.data });
+};

@@ -186,6 +186,7 @@ function LoginPage(props) {
     );
   };
 
+  // render error message it exists
   const renderErrorMessageIfExist = () => {
     if (formErrorMessage) {
       return (

@@ -10,6 +10,9 @@ class ChatPage extends React.Component {
   componentDidMount() {
     const server = "localhost:5000";
     this.socket = io(server);
+    this.socket.on("Output chat message", (messageFromServer) => {
+      console.log(messageFromServer);
+    });
   }
 
   hanleSearchChange = (event) => {
