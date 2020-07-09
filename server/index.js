@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const config = require("./config/key");
 const mongoose = require("mongoose");
 const usersIndex = require("./routes/users");
+const chatsIndex = require("./routes/chats");
 const Chat = require("./models/Chat");
 
 mongoose.connect(config.mongoUri, {
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/users", usersIndex);
+app.use("/api/chats", chatsIndex);
 
 io.on("connection", (socket) => {
   socket.on("Input Chat Message", async (msg) => {
@@ -45,11 +47,11 @@ io.on("connection", (socket) => {
 
     try {
       await chat.save();
-      const sender = await Chat.find({ _id: chat.id })
+      const chatsFromSender = await Chat.find({ _id: chat.id })
         .populate("sender")
         .exec();
 
-      return io.emit("Output chat message", sender);
+      return io.emit("Output chat message", chatsFromSender);
     } catch (error) {
       console.log(error);
       return res.send({ success: false, error });

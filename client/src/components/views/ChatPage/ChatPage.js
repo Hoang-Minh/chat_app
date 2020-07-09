@@ -3,15 +3,20 @@ import { Form, Icon, Input, Button, Row, Col } from "antd";
 import io from "socket.io-client";
 import { connect } from "react-redux";
 import moment from "moment";
+import { getChats, afterPostMessage } from "../../../_actions/chat_actions";
+import ChatCard from "./Sections/ChatCard";
 
 class ChatPage extends React.Component {
   state = { chatMessage: "" };
 
   componentDidMount() {
     const server = "localhost:5000";
+    console.log("component Did Mount");
+
+    this.props.dispatch(getChats());
     this.socket = io(server);
     this.socket.on("Output chat message", (messageFromServer) => {
-      console.log(messageFromServer);
+      this.props.dispatch(afterPostMessage(messageFromServer));
     });
   }
 
@@ -19,15 +24,25 @@ class ChatPage extends React.Component {
     this.setState({ chatMessage: event.target.value });
   };
 
+  renderCards = () => {
+    const { chats } = this.props.chats;
+    if (chats) {
+      console.log("renderChats", chats);
+      return chats.map((chat) => (
+        <ChatCard chat={chat} key={chat._id}></ChatCard>
+      ));
+    }
+  };
+
   submitChatMessage = (event) => {
     event.preventDefault();
 
     const chatMessage = this.state.chatMessage;
-    const userId = this.props.user.userData_id;
+    const userId = this.props.user.userData._id;
     const username = this.props.user.userData.name;
     const userImage = this.props.user.userData.image;
     const nowTime = moment();
-    const type = "Image";
+    const type = "Text";
 
     this.socket.emit("Input Chat Message", {
       chatMessage,
@@ -53,9 +68,7 @@ class ChatPage extends React.Component {
 
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <div className="infinite-container">
-            {/* {this.props.chats && (
-                            <div>{this.renderCards()}</div>
-                        )} */}
+            {this.props.chats && <div>{this.renderCards()}</div>}
             <div
               ref={(el) => {
                 this.messagesEnd = el;
@@ -101,6 +114,7 @@ class ChatPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    chats: state.chats,
   };
 };
 
