@@ -45,13 +45,18 @@ io.on("connection", (socket) => {
       type: msg.type,
     });
 
+    console.log("Message before saving to database", chat);
+
     try {
       await chat.save();
-      const chatsFromSender = await Chat.find({ _id: chat.id })
+      console.log(chat.id);
+      const chatsFromSender = await Chat.findById(chat.id)
         .populate("sender")
         .exec();
 
-      return io.emit("Output chat message", chatsFromSender);
+      console.log("about to send from database to client", chatsfromSender);
+
+      return io.emit("Output chat message", chatsFromSender); //send to client
     } catch (error) {
       console.log(error);
       return res.send({ success: false, error });
