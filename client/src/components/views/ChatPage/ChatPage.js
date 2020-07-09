@@ -20,6 +20,10 @@ class ChatPage extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
   hanleSearchChange = (event) => {
     this.setState({ chatMessage: event.target.value });
   };
@@ -67,7 +71,10 @@ class ChatPage extends React.Component {
         </div>
 
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <div className="infinite-container">
+          <div
+            className="infinite-container"
+            style={{ height: "500px", overflowY: "scroll" }}
+          >
             {this.props.chats && <div>{this.renderCards()}</div>}
             <div
               ref={(el) => {
