@@ -2,9 +2,11 @@ import React from "react";
 import { Form, Icon, Input, Button, Row, Col } from "antd";
 import io from "socket.io-client";
 import { connect } from "react-redux";
+import Dropzone, { useDropzone } from "react-dropzone";
 import moment from "moment";
 import { getChats, afterPostMessage } from "../../../_actions/chat_actions";
 import ChatCard from "./Sections/ChatCard";
+import axios from "axios";
 
 class ChatPage extends React.Component {
   state = { chatMessage: "" };
@@ -26,6 +28,38 @@ class ChatPage extends React.Component {
 
   hanleSearchChange = (event) => {
     this.setState({ chatMessage: event.target.value });
+  };
+
+  onDrop = (files) => {
+    // now this is not text !!!
+    console.log("files", files);
+    // const formData = new FormData();
+    // const config = {
+    //   header: {
+    //     "content-type": "multipart/form-data",
+    //   },
+    // };
+
+    // formData.append("file", files[0]);
+
+    // axios.post("/api/chats/uploadfiles", formData, config).then((response) => {
+    //   console.log("about to store message into database");
+    //   const chatMessage = response.data.url;
+    //   const userId = this.props.user.userData._id;
+    //   const username = this.props.user.userData.name;
+    //   const userImage = this.props.user.userData.image;
+    //   const nowTime = moment();
+    //   const type = "VideoOrImage";
+
+    //   this.socket.emit("Input Chat Message", {
+    //     chatMessage,
+    //     userId,
+    //     username,
+    //     userImage,
+    //     nowTime,
+    //     type,
+    //   });
+    // });
   };
 
   renderCards = () => {
@@ -98,7 +132,20 @@ class ChatPage extends React.Component {
                   onChange={this.hanleSearchChange}
                 />
               </Col>
-              <Col span={2}></Col>
+              <Col span={2}>
+                <Dropzone onDrop={this.onDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <section>
+                      <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <Button>
+                          <Icon type="upload"></Icon>
+                        </Button>
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              </Col>
 
               <Col span={4}>
                 <Button
