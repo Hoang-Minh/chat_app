@@ -14,18 +14,26 @@ export default function (SpecificComponent, option, adminRoute = null) {
       //To know my current status, send Auth request
       dispatch(auth()).then((response) => {
         //Not Loggined in Status
-        if (!response.payload.isAuth) {
+        console.log("dispatch auth()", response);
+        console.log("dispatch auth() - option", option);
+
+        const { payload } = response;
+
+        if (!payload.isAuth) {
           if (option) {
+            console.log("login???");
             history.push("/login");
           }
           //Loggined in Status
         } else {
+          console.log("admin route???");
           //supposed to be Admin page, but not admin person wants to go inside
-          if (adminRoute && !response.payload.isAdmin) {
+          if (adminRoute && !payload.isAdmin) {
             history.push("/");
           }
           //Logged in Status, but Try to go into log in page
           else {
+            console.log("option???");
             if (option === false) {
               history.push("/");
             }
