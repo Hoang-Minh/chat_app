@@ -19,11 +19,13 @@ const ChatCard = ({ chat }) => {
 
   const renderContent = (message, type) => {
     const content = type.includes("Text") ? (
-      <p>{message}</p>
+      <p>
+        {message} - {process.env.REACT_APP_ENDPOINT}
+      </p>
     ) : type.includes("video") ? (
       <video
         style={{ maxWidth: "150px" }}
-        src={`/media/${message}`}
+        src={`${process.env.REACT_APP_ENDPOINT}/${message}`}
         alt="video"
         type={type}
         controls
@@ -31,7 +33,7 @@ const ChatCard = ({ chat }) => {
     ) : (
       <img
         style={{ maxWidth: "150px" }}
-        src={`/media/${message}`}
+        src={`${process.env.REACT_APP_ENDPOINT}/${message}`}
         alt="photo"
       ></img>
     );

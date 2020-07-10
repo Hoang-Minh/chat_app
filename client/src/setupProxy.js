@@ -2,10 +2,9 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
-    ["/api", "/media"],
+    "/api",
     createProxyMiddleware({
-      target: "https://agile-stream-99792.herokuapp.com/",
-      changeOrigin: true,
+      target: "http://localhost:5000",
     })
   );
 };

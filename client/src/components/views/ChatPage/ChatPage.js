@@ -12,8 +12,8 @@ class ChatPage extends React.Component {
   state = { chatMessage: "" };
 
   componentDidMount() {
-    const server = "https://agile-stream-99792.herokuapp.com/";
-    console.log("component Did Mount");
+    const server = process.env.REACT_APP_ENDPOINT;
+    console.log("test env", process.env.REACT_APP_ENDPOINT);
 
     this.props.dispatch(getChats());
     this.socket = io(server);
