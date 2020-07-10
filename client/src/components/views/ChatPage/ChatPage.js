@@ -30,36 +30,43 @@ class ChatPage extends React.Component {
     this.setState({ chatMessage: event.target.value });
   };
 
-  onDrop = (files) => {
-    // now this is not text !!!
-    console.log("files", files);
-    // const formData = new FormData();
-    // const config = {
-    //   header: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
+  onDrop = async (files) => {
+    if (this.props.user.userData && !this.props.user.userData.isAuth) {
+      return alert("Please Log in first");
+    }
 
-    // formData.append("file", files[0]);
+    let formData = new FormData();
 
-    // axios.post("/api/chats/uploadfiles", formData, config).then((response) => {
-    //   console.log("about to store message into database");
-    //   const chatMessage = response.data.url;
-    //   const userId = this.props.user.userData._id;
-    //   const username = this.props.user.userData.name;
-    //   const userImage = this.props.user.userData.image;
-    //   const nowTime = moment();
-    //   const type = "VideoOrImage";
+    const config = {
+      header: { "content-type": "multipart/form-data" },
+    };
 
-    //   this.socket.emit("Input Chat Message", {
-    //     chatMessage,
-    //     userId,
-    //     username,
-    //     userImage,
-    //     nowTime,
-    //     type,
-    //   });
-    // });
+    formData.append("file", files[0]);
+
+    const response = await axios.post(
+      "api/chats/uploadfiles",
+      formData,
+      config
+    );
+
+    if (response.data.success) {
+      console.log("success");
+      let chatMessage = response.data.url;
+      let userId = this.props.user.userData._id;
+      let userName = this.props.user.userData.name;
+      let userImage = this.props.user.userData.image;
+      let nowTime = moment();
+      let type = response.data.type;
+
+      this.socket.emit("Input Chat Message", {
+        chatMessage,
+        userId,
+        userName,
+        userImage,
+        nowTime,
+        type,
+      });
+    }
   };
 
   renderCards = () => {

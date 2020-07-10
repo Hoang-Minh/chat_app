@@ -3,13 +3,10 @@ import moment from "moment";
 import { Comment, Avatar, Tooltip } from "antd";
 
 const ChatCard = ({ chat }) => {
-  console.log("Chat Card", chat);
   const {
     sender: { name, image },
     message,
   } = chat;
-
-  console.log(name, image, message);
 
   return (
     <div style={{ width: "100%" }}>
