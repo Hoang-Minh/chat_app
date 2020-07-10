@@ -3,46 +3,40 @@ import moment from "moment";
 import { Comment, Avatar, Tooltip } from "antd";
 
 const ChatCard = ({ chat }) => {
+  console.log(chat);
   const {
     sender: { name, image },
     message,
     type,
+    createdAt,
   } = chat;
 
-  console.log(name, image, message, type);
+  console.log(name, image, message, type, createdAt);
+
+  const timeStamp = moment
+    .utc(createdAt, "YYYY MM DD HH:mm:ss ZZ")
+    .format("dddd, MMMM DD YYYY HH:mm");
 
   const renderContent = (message, type) => {
-    if (type.includes("video")) {
-      return (
-        <>
-          <video
-            style={{ maxWidth: "200px" }}
-            src={`http://localhost:5000/${message}`}
-            alt="video"
-            type={type}
-            controls
-          ></video>
-          <p>{message}</p>
-        </>
-      );
-    }
+    const content = type.includes("Text") ? (
+      <p>{message}</p>
+    ) : type.includes("video") ? (
+      <video
+        style={{ maxWidth: "150px" }}
+        src={`http://localhost:5000/${message}`}
+        alt="video"
+        type={type}
+        controls
+      ></video>
+    ) : (
+      <img
+        style={{ maxWidth: "150px" }}
+        src={`http://localhost:5000/${message}`}
+        alt="photo"
+      ></img>
+    );
 
-    if (type.includes("image")) {
-      return (
-        <>
-          <img
-            style={{ maxWidth: "200px" }}
-            src={`http://localhost:5000/${message}`}
-            alt="photo"
-          ></img>
-          <p>{message}</p>
-        </>
-      );
-    }
-
-    if (type.includes("Text")) {
-      return <p>{message}</p>;
-    }
+    return content;
   };
 
   return (
@@ -53,7 +47,7 @@ const ChatCard = ({ chat }) => {
         content={renderContent(message, type)}
         datetime={
           <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
-            <span>FIX THIS!!!</span>
+            <span>{timeStamp}</span>
           </Tooltip>
         }
       ></Comment>

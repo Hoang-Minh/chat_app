@@ -20,11 +20,22 @@ class ChatPage extends React.Component {
     this.socket.on("Output chat message", (messageFromServer) => {
       this.props.dispatch(afterPostMessage(messageFromServer));
     });
+
+    this.scrollToBottom();
   }
 
   componentDidUpdate() {
-    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    console.log("component did update");
+    this.scrollToBottom();
   }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  };
 
   hanleSearchChange = (event) => {
     this.setState({ chatMessage: event.target.value });
