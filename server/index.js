@@ -62,6 +62,12 @@ io.on("connection", (socket) => {
 //use this to show the image you have in node js server to client (react js)
 //https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
 app.use("/uploads", express.static("uploads"));
+//cb(null, 'uploads/') //
+
+//uploads\1594360813183_logo.png
+
+//cb(null, "server/uploads/");
+//server\uploads\1594360940088_logo.png
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
