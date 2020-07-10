@@ -17,7 +17,11 @@ export default function (SpecificComponent, option, adminRoute = null) {
         console.log("dispatch auth()", response);
         console.log("dispatch auth() - option", option);
 
-        const { isAuth, isAdmin } = response;
+        const {
+          payload: { isAuth, isAdmin },
+        } = response;
+
+        console.log(isAuth);
 
         if (!isAuth) {
           if (option) {
