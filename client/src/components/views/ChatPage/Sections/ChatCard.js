@@ -23,7 +23,7 @@ const ChatCard = ({ chat }) => {
     ) : type.includes("video") ? (
       <video
         style={{ maxWidth: "150px" }}
-        src={`http://localhost:5000/${message}`}
+        src={`/media/${message}`}
         alt="video"
         type={type}
         controls
@@ -31,7 +31,7 @@ const ChatCard = ({ chat }) => {
     ) : (
       <img
         style={{ maxWidth: "150px" }}
-        src={`http://localhost:5000/${message}`}
+        src={`/media/${message}`}
         alt="photo"
       ></img>
     );

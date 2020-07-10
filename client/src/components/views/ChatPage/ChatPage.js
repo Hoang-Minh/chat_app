@@ -12,7 +12,7 @@ class ChatPage extends React.Component {
   state = { chatMessage: "" };
 
   componentDidMount() {
-    const server = "localhost:5000";
+    const server = "https://agile-stream-99792.herokuapp.com/";
     console.log("component Did Mount");
 
     this.props.dispatch(getChats());
