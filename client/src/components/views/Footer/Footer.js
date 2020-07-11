@@ -1,16 +1,24 @@
-import React from 'react'
-import {Icon} from 'antd';
+import React from "react";
+import PandaIcon from "../../../Icons/icon";
 
 function Footer() {
-    return (
-        <div style={{
-            height: '80px', display: 'flex',
-            flexDirection: 'column', alignItems: 'center',
-            justifyContent: 'center', fontSize:'1rem'
-        }}>
-           <p> Happy Coding  <Icon type="smile" /></p>
-        </div>
-    )
+  let i = 5;
+  return (
+    <div
+      style={{
+        height: "80px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "1rem",
+      }}
+    >
+      <p>
+        Welcome to <PandaIcon style={{ fontSize: "32px" }} /> Room !!!
+      </p>
+    </div>
+  );
 }
 
-export default Footer
+export default Footer;
