@@ -3,7 +3,7 @@ import moment from "moment";
 import { Comment, Avatar, Tooltip } from "antd";
 
 const ChatCard = ({ chat }) => {
-  console.log(chat);
+  console.log("ChatCard", chat);
   const {
     sender: { name, image },
     message,
@@ -42,7 +42,7 @@ const ChatCard = ({ chat }) => {
   return (
     <div style={{ width: "100%" }}>
       <Comment
-        autho={name}
+        author={name}
         avatar={<Avatar src={image} alt={name}></Avatar>}
         content={renderContent(message, type)}
         datetime={
